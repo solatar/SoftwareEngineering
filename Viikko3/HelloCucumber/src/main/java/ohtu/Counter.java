@@ -2,7 +2,7 @@
 package ohtu;
 
 public class Counter {
-   int val = 0;
+     int val = 0;
 
    public void increase(){
         val++;
