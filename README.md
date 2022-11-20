@@ -1,3 +1,0 @@
-# SoftwareEngineeringTheory
-course assignments
-
