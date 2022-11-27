@@ -24,7 +24,7 @@ public class Ostos {
  
     public void muutaLukumaaraa(int muutos) {
         lkm += muutos;
-        if ( lkm<0 ) {
+        if (lkm < 0) {
             lkm = 0;
         }
     }

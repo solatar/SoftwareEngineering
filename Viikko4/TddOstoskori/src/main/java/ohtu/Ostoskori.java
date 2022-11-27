@@ -23,22 +23,41 @@ public class Ostoskori {
     }
  
     public void lisaaTuote(Tuote lisattava) {
-        this.tuotteet.add(new Ostos(lisattava));
+        int ostettu = 0;
+        for (Ostos ostos : tuotteet) {
+            if (ostos.tuotteenNimi().equals(lisattava.getNimi())) {
+                ostos.muutaLukumaaraa(1);
+                ostettu = 1;
+            } 
+        }
+        if (ostettu == 0) {
+            tuotteet.add(new Ostos(lisattava));
+        } 
         tavaroita++;
         hinta += lisattava.getHinta();
     }
  
     public void poista(Tuote poistettava) {
-        // poistaa tuotteen
+        for (int i = 0; i < tuotteet.size(); i++) {
+            Ostos ostos = tuotteet.get(i);
+            if (ostos.tuotteenNimi().equals(poistettava.getNimi())) {
+                ostos.muutaLukumaaraa(-1);
+                if (ostos.lukumaara() <= 0) {
+                    tuotteet.remove(i);
+                }
+            }
+        }  
+        tavaroita--;
+        hinta -= poistettava.getHinta();      
     }
  
     public List<Ostos> ostokset() {
-        // palauttaa listan jossa on korissa olevat ostokset
- 
-        return null;
+        return this.tuotteet;
     }
  
     public void tyhjenna() {
-        // tyhjentää korin
+        this.tuotteet.clear();
+        tavaroita = 0;
+        hinta = 0;
     }    
 }
