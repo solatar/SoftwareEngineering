@@ -18,6 +18,5 @@ public class ConsoleIO implements IO {
     public String readLine(String prompt) {
         System.out.println(prompt);
         return scanner.nextLine();
-    }
-    
+    }    
 }
