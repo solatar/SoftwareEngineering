@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'jacoco'
 }
 
 repositories {
@@ -8,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:28.1-jre'
+    compile 'com.google.guava:guava:23.0'
     testCompile 'org.mockito:mockito-core:3.1.0'
     compile group: 'org.springframework', name: 'spring-core', version:'5.2.0.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version:'5.2.0.RELEASE'

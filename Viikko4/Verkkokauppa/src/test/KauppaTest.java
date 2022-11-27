@@ -2,8 +2,13 @@ package ohtu.verkkokauppa;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.annotations.VisibleForTesting;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import org.checkerframework.dataflow.qual.TerminatesExecution;
 
 public class KauppaTest {
 
@@ -28,7 +33,6 @@ public class KauppaTest {
         // määritellään että tuote numero 1 on maito jonka hinta on 5 ja saldo 10
         when(varasto.saldo(1)).thenReturn(10); 
         when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "maito", 5));
-
         // tehdään ostokset
         kauppa.aloitaAsiointi();
         kauppa.lisaaKoriin(1);     // ostetaan tuotetta numero 1 eli maitoa
@@ -82,4 +86,21 @@ public class KauppaTest {
         // sitten suoritetaan varmistus, että pankin metodia tilisiirto on kutsuttu
         verify(pankki).tilisiirto(eq("timotei"), eq("52"), eq("88890"), eq("33333-44455"), eq("2"));      
     }    
+
+    @Test
+    public void ostoskoriTyhjäAsioinninAlkaessa() {
+        kauppa.aloitaAsiointi();
+        kauppa.tilimaksu("timotei", "88890");
+        verify(pankki).tilisiirto(anyString(), anyInt(), anyString(), anyString(), eq("0"));  
+    }
+
+    @Test 
+    public void poistettuTuoteLisätäänVarastoon() {
+        when(varasto.saldo(6)).thenReturn(25); 
+        when(varasto.haeTuote(6)).thenReturn(new Tuote(6, "makaroni", 2));
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(6);
+        kauppa.poistaKorista(6);
+        verify(varasto, times(1)).palautaVarastoon();         
+    }
 }
