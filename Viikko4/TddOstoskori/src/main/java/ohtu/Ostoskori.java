@@ -23,7 +23,9 @@ public class Ostoskori {
     }
  
     public void lisaaTuote(Tuote lisattava) {
-        
+        this.tuotteet.add(new Ostos(lisattava));
+        tavaroita++;
+        hinta += lisattava.getHinta();
     }
  
     public void poista(Tuote poistettava) {
